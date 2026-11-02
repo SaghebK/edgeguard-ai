@@ -93,7 +93,18 @@ The tests cover polygon geometry only, not detector accuracy or hardware perform
 
 ### Responsible use
 Deploy only where monitoring is lawful and appropriately disclosed. Minimize video retention. This system detects people and zone entry; it does not identify individuals.
-
+flowchart TD
+    A["Camera / Video Input"] --> B["OpenCV"]
+    B --> C["YOLOv10n Object Detection"]
+    C --> D["ByteTrack Object Tracking"]
+    D --> E["Restricted Zone Monitoring"]
+    F["config.json"] --> E
+    E --> G{"Person enters restricted zone?"}
+    G -->|Yes| H["Generate Intrusion Event"]
+    G -->|No| I["Continue Monitoring"]
+    H --> J["Save Event to CSV"]
+    H --> K["Display Alert and Bounding Box"]
+    I --> B
 ### Author
 **Sagheb Kohpayeh Araghi**  
 Computer Vision · Edge AI · Embedded Systems · YOLO · Python · OpenCV · ONNX  
