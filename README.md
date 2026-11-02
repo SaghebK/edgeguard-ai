@@ -109,6 +109,36 @@ flowchart TD
     I --> B
 ```
 
+## Edge AI Deployment Architecture
+
+```mermaid
+flowchart TB
+    subgraph DEV["Development Environment"]
+        A["YOLOv10n Model"]
+        B["Model Export"]
+        A --> B
+        B --> C["ONNX Model"]
+    end
+
+    C --> D["Deployment to Raspberry Pi 4"]
+
+    subgraph EDGE["Raspberry Pi 4 - Edge Device"]
+        D --> E["Camera / Video Input"]
+        E --> F["OpenCV Frame Capture"]
+        F --> G["Image Preprocessing"]
+        G --> H["YOLOv10n Inference"]
+        H --> I["Object Detection Results"]
+        I --> J["ByteTrack Tracking"]
+        J --> K["Restricted Zone Analysis"]
+        K --> L{"Intrusion Detected?"}
+        L -->|Yes| M["Event Logging"]
+        L -->|No| N["Continue Monitoring"]
+        M --> O["CSV Event Log"]
+        M --> P["Visual Alert"]
+        N --> F
+    end
+```
+
 ### Author
 **Sagheb Kohpayeh Araghi**  
 Computer Vision · Edge AI · Embedded Systems · YOLO · Python · OpenCV · ONNX  
